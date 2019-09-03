@@ -1,0 +1,8 @@
+image: python:3.7
+
+test:
+  stage: test
+  script:
+    - pip install pipenv
+    - pipenv install --dev --system
+    - pylint run.py || true

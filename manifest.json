@@ -1,0 +1,167 @@
+{
+	"name": "genomics-deepvariant",
+	"label": "Google Genomics DeepVariant",
+	"description": "Run DeepVariant on Google Cloud Platform using Genomics API and export the output VCF file to BigQuery",
+	"version": "0.1.0",
+	"flywheel": "0",
+	"inputs": {
+		"bam": {
+			"base": "file",
+			"description": "Input BAM file",
+			"type": {"enum": ["bam"]}
+		},
+		"bai": {
+			"base": "file",
+			"description": "Input BAI file",
+			"type": {"enum": ["bai"]},
+			"optional": true
+		},
+		"fasta": {
+			"base": "file",
+			"description": "Input FASTA, it can be gz file.",
+			"type": {"enum": ["fasta"]}
+		},
+		"fai": {
+			"base": "file",
+			"description": "Input FASTA index file",
+			"type": {"enum": ["fai"]},
+			"optional": true
+		},
+		"key": {
+			"base": "api-key"
+		},
+		"service_account": {
+			"base": "file",
+			"description": "Google Service Account JSON.",
+			"type": {"enum": ["json"]}
+		}
+	},
+	"config": {
+		"log_level": {
+			"default": "INFO",
+			"description": "Log verbosity level (ERROR|WARNING|INFO|DEBUG)",
+			"type": "string"
+		},
+		"dest_bq_dataset": {
+			"description": "The output VCF file will be exported into this BigQuery dataset",
+			"type": "string",
+			"default": "genomics_vcf_exports"
+		},
+		"project_id": {
+			"description": "Google project ID",
+			"type": "string"
+		},
+		"machine_type": {
+			"description": "Machine type where the base pipeline will be executed.",
+			"type": "string",
+			"default": "n1-standard-2"
+		},
+		"base_pipeline_disk_size": {
+			"description": "Machine type where the base pipeline will be executed.",
+			"type": "integer",
+			"default": 5
+		},
+		"regions": {
+			"description": "The list of regions allowed for VM allocation separated by comma. If set, the zones field must not be set. DeepVariant runner will be executed in these regions.",
+			"type": "string",
+			"default": "us-central1"
+		},
+		"zones": {
+			"description": "The list of zones allowed for the DeepVariant runner to start machines separated by comma. These VMs will do the actual work. Wildcard suffixes are supported.",
+			"type": "string",
+			"default": "us-central1-*"
+		},
+		"image_version": {
+			"description": "DeepVariant Docker image version",
+			"type": "string",
+			"default": "0.7.2"
+		},
+		"shards": {
+			"description": "Number of shards to use for the entire pipeline. The number of shards assigned to each worker is set by dividing --shards by the number of workers for each job.",
+			"type": "integer",
+			"default": 8
+		},
+		"make_examples_workers": {
+			"description": "Number of workers (machines) to use for running the make_examples job.",
+			"type": "integer",
+			"default": 1
+		},
+		"make_examples_cores_per_worker": {
+			"description": "Number of cores for each worker in make_examples.",
+			"type": "integer",
+			"default": 8
+		},
+		"make_examples_ram_per_worker_gb": {
+			"description": "RAM (in GB) to use for each worker in make_examples.",
+			"type": "integer",
+			"default": 30
+		},
+		"make_examples_disk_per_worker_gb": {
+			"description": "Disk (in GB) to use for each worker in make_examples.",
+			"type": "integer",
+			"default": 50
+		},
+		"call_variants_workers": {
+			"description": "Number of workers (machines) to use for running the call_variants job.",
+			"type": "integer",
+			"default": 1
+		},
+		"call_variants_cores_per_worker": {
+			"description": "Number of cores for each worker in call_variants.",
+			"type": "integer",
+			"default": 8
+		},
+		"call_variants_ram_per_worker_gb": {
+			"description": "RAM (in GB) to use for each worker in call_variants.",
+			"type": "integer",
+			"default": 30
+		},
+		"call_variants_disk_per_worker_gb": {
+			"description": "Disk (in GB) to use for each worker in call_variants.",
+			"type": "integer",
+			"default": 30
+		},
+		"postprocess_variants_cores": {
+			"description": "Number of cores to use for postprocess_variants.",
+			"type": "integer",
+			"default": 8
+		},
+		"postprocess_variants_ram_gb": {
+			"description": "RAM (in GB) to use for postprocess_variants.",
+			"type": "integer",
+			"default": 30
+		},
+		"postprocess_variants_disk_gb": {
+			"description": "Disk (in GB) to use for postprocess_variants.",
+			"type": "integer",
+			"default": 30
+		},
+		"preemptible": {
+			"description": "Use preemptible VMs for the pipeline.",
+			"type": "boolean",
+			"default": false
+		},
+		"max_preemptible_tries": {
+			"description": "Maximum number of times to try running each worker (within a job) with preemptible VMs. Regular VMs will be used (for the particular shards assigned to that worker) after this many preemptions.",
+			"type": "integer",
+			"default": 50
+		},
+		"chr_regions": {
+			"description": "Optional space-separated list of regions to process. Elements can be region literals (chr20:10-20) or Google Cloud Storage paths to BED/BEDPE files.",
+			"type": "string",
+			"default": ""
+		}
+	},
+	"command": "./run.py",
+	"author": "Flywheel <support@flywheel.io>",
+	"maintainer": "Flywheel <support@flywheel.io>",
+	"license": "Other",
+	"source": "https://github.com/flywheel-apps/genomics-deepvariant",
+	"url": "https://github.com/flywheel-apps/genomics-deepvariant",
+	"custom": {
+		"gear-builder": {
+			"category": "converter",
+			"image": "genomics-deepvariant"
+		}
+	}
+}

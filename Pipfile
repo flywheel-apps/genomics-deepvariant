@@ -1,0 +1,23 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+rope = "*"
+flake8 = "*"
+ipython = "*"
+
+[packages]
+backports-tempfile = "*"
+flywheel-migration = "*"
+requests-toolbelt = "*"
+tzlocal = "*"
+flywheel-sdk = "*"
+google-auth = "*"
+google-cloud-storage = "*"
+google-cloud-bigquery = "*"
+
+[requires]
+python_version = "3.7"

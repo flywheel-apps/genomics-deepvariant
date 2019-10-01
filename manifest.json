@@ -2,7 +2,7 @@
 	"name": "genomics-deepvariant",
 	"label": "Google Genomics DeepVariant",
 	"description": "Run DeepVariant on Google Cloud Platform using Genomics API and export the output VCF file to BigQuery",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"flywheel": "0",
 	"inputs": {
 		"bam": {
